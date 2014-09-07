@@ -1,0 +1,288 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PCRE16">
+      <UniqueIdentifier>{1d439ed1-13d9-4221-b2f3-90449d77fa20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PCRE32">
+      <UniqueIdentifier>{cdb82d54-2013-423c-b369-d4aa3270d3a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Disabled%28test tools%29">
+      <UniqueIdentifier>{cd0d3e39-8acc-45cf-9a79-3baee50586a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\pcre_byte_order.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre_chartables.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre_compile.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre_config.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre_dfa_exec.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre_exec.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre_fullinfo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre_get.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre_globals.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre_maketables.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre_newline.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre_ord2utf8.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre_printint.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre_refcount.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre_string_utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre_study.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre_tables.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre_ucd.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre_valid_utf8.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre_version.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre_xclass.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre16_byte_order.c">
+      <Filter>Source Files\PCRE16</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre16_chartables.c">
+      <Filter>Source Files\PCRE16</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre16_compile.c">
+      <Filter>Source Files\PCRE16</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre16_config.c">
+      <Filter>Source Files\PCRE16</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre16_dfa_exec.c">
+      <Filter>Source Files\PCRE16</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre16_exec.c">
+      <Filter>Source Files\PCRE16</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre16_fullinfo.c">
+      <Filter>Source Files\PCRE16</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre16_get.c">
+      <Filter>Source Files\PCRE16</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre16_globals.c">
+      <Filter>Source Files\PCRE16</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre16_jit_compile.c">
+      <Filter>Source Files\PCRE16</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre16_maketables.c">
+      <Filter>Source Files\PCRE16</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre16_newline.c">
+      <Filter>Source Files\PCRE16</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre16_ord2utf16.c">
+      <Filter>Source Files\PCRE16</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre16_printint.c">
+      <Filter>Source Files\PCRE16</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre16_refcount.c">
+      <Filter>Source Files\PCRE16</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre16_string_utils.c">
+      <Filter>Source Files\PCRE16</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre16_study.c">
+      <Filter>Source Files\PCRE16</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre16_tables.c">
+      <Filter>Source Files\PCRE16</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre16_ucd.c">
+      <Filter>Source Files\PCRE16</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre16_utf16_utils.c">
+      <Filter>Source Files\PCRE16</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre16_valid_utf16.c">
+      <Filter>Source Files\PCRE16</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre16_version.c">
+      <Filter>Source Files\PCRE16</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre16_xclass.c">
+      <Filter>Source Files\PCRE16</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre32_byte_order.c">
+      <Filter>Source Files\PCRE32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre32_chartables.c">
+      <Filter>Source Files\PCRE32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre32_compile.c">
+      <Filter>Source Files\PCRE32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre32_config.c">
+      <Filter>Source Files\PCRE32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre32_dfa_exec.c">
+      <Filter>Source Files\PCRE32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre32_exec.c">
+      <Filter>Source Files\PCRE32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre32_fullinfo.c">
+      <Filter>Source Files\PCRE32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre32_get.c">
+      <Filter>Source Files\PCRE32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre32_globals.c">
+      <Filter>Source Files\PCRE32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre32_jit_compile.c">
+      <Filter>Source Files\PCRE32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre32_maketables.c">
+      <Filter>Source Files\PCRE32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre32_newline.c">
+      <Filter>Source Files\PCRE32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre32_ord2utf32.c">
+      <Filter>Source Files\PCRE32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre32_printint.c">
+      <Filter>Source Files\PCRE32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre32_refcount.c">
+      <Filter>Source Files\PCRE32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre32_string_utils.c">
+      <Filter>Source Files\PCRE32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre32_study.c">
+      <Filter>Source Files\PCRE32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre32_tables.c">
+      <Filter>Source Files\PCRE32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre32_ucd.c">
+      <Filter>Source Files\PCRE32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre32_utf32_utils.c">
+      <Filter>Source Files\PCRE32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre32_valid_utf32.c">
+      <Filter>Source Files\PCRE32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre32_version.c">
+      <Filter>Source Files\PCRE32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre32_xclass.c">
+      <Filter>Source Files\PCRE32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dftables.c">
+      <Filter>Source Files\Disabled%28test tools%29</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre_jit_test.c">
+      <Filter>Source Files\Disabled%28test tools%29</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcredemo.c">
+      <Filter>Source Files\Disabled%28test tools%29</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcregrep.c">
+      <Filter>Source Files\Disabled%28test tools%29</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcretest.c">
+      <Filter>Source Files\Disabled%28test tools%29</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre_jit_compile.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcreposix.c">
+      <Filter>Source Files\Disabled%28test tools%29</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre_scanner.cc">
+      <Filter>Source Files\Disabled%28test tools%29</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre_scanner_unittest.cc">
+      <Filter>Source Files\Disabled%28test tools%29</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre_stringpiece.cc">
+      <Filter>Source Files\Disabled%28test tools%29</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre_stringpiece_unittest.cc">
+      <Filter>Source Files\Disabled%28test tools%29</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcrecpp.cc">
+      <Filter>Source Files\Disabled%28test tools%29</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcrecpp_unittest.cc">
+      <Filter>Source Files\Disabled%28test tools%29</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\pcre.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\pcre_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ucp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\pcreposix.h">
+      <Filter>Source Files\Disabled%28test tools%29</Filter>
+    </ClInclude>
+    <ClInclude Include="src\pcrecpp.h">
+      <Filter>Source Files\Disabled%28test tools%29</Filter>
+    </ClInclude>
+    <ClInclude Include="src\pcrecpp_internal.h">
+      <Filter>Source Files\Disabled%28test tools%29</Filter>
+    </ClInclude>
+    <ClInclude Include="src\pcre_scanner.h">
+      <Filter>Source Files\Disabled%28test tools%29</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
