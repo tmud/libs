@@ -1,5 +1,5 @@
 /*
-** $Id: lua.h,v 1.285.1.2 2013/11/11 12:09:16 roberto Exp $
+** $Id: lua.h,v 1.285.1.4 2015/02/21 14:04:50 roberto Exp $
 ** Lua - A Scripting Language
 ** Lua.org, PUC-Rio, Brazil (http://www.lua.org)
 ** See Copyright Notice at the end of this file
@@ -19,11 +19,11 @@
 #define LUA_VERSION_MAJOR	"5"
 #define LUA_VERSION_MINOR	"2"
 #define LUA_VERSION_NUM		502
-#define LUA_VERSION_RELEASE	"3"
+#define LUA_VERSION_RELEASE	"4"
 
 #define LUA_VERSION	"Lua " LUA_VERSION_MAJOR "." LUA_VERSION_MINOR
 #define LUA_RELEASE	LUA_VERSION "." LUA_VERSION_RELEASE
-#define LUA_COPYRIGHT	LUA_RELEASE "  Copyright (C) 1994-2013 Lua.org, PUC-Rio"
+#define LUA_COPYRIGHT	LUA_RELEASE "  Copyright (C) 1994-2015 Lua.org, PUC-Rio"
 #define LUA_AUTHORS	"R. Ierusalimschy, L. H. de Figueiredo, W. Celes"
 
 
@@ -418,7 +418,7 @@ struct lua_Debug {
 
 
 /******************************************************************************
-* Copyright (C) 1994-2013 Lua.org, PUC-Rio.
+* Copyright (C) 1994-2015 Lua.org, PUC-Rio.
 *
 * Permission is hereby granted, free of charge, to any person obtaining
 * a copy of this software and associated documentation files (the
@@ -440,13 +440,5 @@ struct lua_Debug {
 * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ******************************************************************************/
 
-//MYCHANGES
-//prototype of lock/unlock functions
-#ifdef _MULTILOCK
-typedef void (*lua_Lock)(void* lockp);
-LUA_API void (lua_setlockf) (lua_State *L, lua_Lock lockf, lua_Lock unlockf, void* lockp);
-LUA_API void (lua_setextra)(lua_State* L, void *extra);
-LUA_API void* (lua_getextra)(lua_State* L);
-#endif
 
 #endif

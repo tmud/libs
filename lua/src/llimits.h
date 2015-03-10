@@ -151,14 +151,9 @@ typedef lu_int32 Instruction;
 #endif
 
 
-#ifndef _MULTILOCK
 #if !defined(lua_lock)
 #define lua_lock(L)     ((void) 0)
 #define lua_unlock(L)   ((void) 0)
-#endif
-#else
-void lua_lock(lua_State *L);
-void lua_unlock(lua_State *L);
 #endif
 
 #if !defined(luai_threadyield)

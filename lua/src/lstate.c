@@ -196,11 +196,6 @@ static void f_luaopen (lua_State *L, void *ud) {
   luai_userstateopen(L);
 }
 
-#ifdef _MULTILOCK
-static void empty_lockf(void* lockp)
-{
-}
-#endif
 
 /*
 ** preinitialize a state with consistent values without allocating
@@ -222,42 +217,7 @@ static void preinit_state (lua_State *L, global_State *g) {
   L->nny = 1;
   L->status = LUA_OK;
   L->errfunc = 0;
-
-#ifdef _MULTILOCK
-  L->lockf = empty_lockf;
-  L->unlockf = empty_lockf;
-  L->lockp = NULL;
-  L->extrap = NULL;
-#endif
 }
-
-#ifdef _MULTILOCK
-LUA_API void lua_setlockf(lua_State *L, lua_Lock lockf, lua_Lock unlockf, void* lockp) {
-    L->lockf = lockf;
-    L->unlockf = unlockf;
-    L->lockp = lockp;
-}
-
-void lua_lock(lua_State *L)
-{
-    L->lockf(L->lockp);
-}
-
-void lua_unlock(lua_State *L)
-{
-    L->unlockf(L->lockp);
-}
-
-LUA_API void lua_setextra(lua_State *L, void* extra)
-{
-    L->extrap = extra;
-}
-
-LUA_API void* lua_getextra(lua_State *L)
-{
-    return L->extrap;
-}
-#endif
 
 
 static void close_state (lua_State *L) {
@@ -356,8 +316,8 @@ LUA_API lua_State *lua_newstate (lua_Alloc f, void *ud) {
 
 LUA_API void lua_close (lua_State *L) {
   L = G(L)->mainthread;  /* only the main thread can be closed */
-#ifdef _MULTILOCK  
   lua_lock(L);
-#endif
   close_state(L);
 }
+
+
