@@ -11,7 +11,7 @@ public:
     void truncate(int len)
     {
         int newTruncate = m_trucatedSize + len;
-        assert (len >= 0 && newTruncate <= m_dataSize);        
+        assert (len >= 0 && newTruncate <= m_dataSize);
         if (newTruncate > m_dataSize)
             newTruncate = m_dataSize;
         m_trucatedSize = newTruncate;
@@ -24,7 +24,7 @@ public:
         if (len > free_space)
         {
             if (m_trucatedSize > 0)
-            {               
+            {
                 int not_truncated = m_dataSize - m_trucatedSize;
                 if (not_truncated > 0)
                 {
@@ -36,7 +36,7 @@ public:
                 m_trucatedSize = 0;
                 free_space = m_data.getSize() - m_dataSize;
             }
-            
+
             int new_size = len + m_dataSize;
             if (new_size > free_space)
                 m_data.keepalloc(new_size);
@@ -63,6 +63,11 @@ public:
     {
         m_dataSize = 0;
         m_trucatedSize = 0;
+    }
+
+    void setBufferSize(int size)
+    {
+        m_data.keepalloc(size);
     }
 
 private:
