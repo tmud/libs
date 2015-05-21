@@ -1,0 +1,7 @@
+/FreeImage/
+/Debug/
+/Release/
+/ipch/
+*.opensdf
+*.sdf
+*.suo
