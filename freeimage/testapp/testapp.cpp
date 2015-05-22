@@ -78,7 +78,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 	wcex.hInstance		= hInstance;
 	wcex.hIcon			= LoadIcon(hInstance, MAKEINTRESOURCE(IDI_TESTAPP));
 	wcex.hCursor		= LoadCursor(NULL, IDC_ARROW);
-	wcex.hbrBackground	= (HBRUSH)(COLOR_WINDOW+1);
+	wcex.hbrBackground	= (HBRUSH)(COLOR_BTNFACE+1);
 	wcex.lpszMenuName	= MAKEINTRESOURCE(IDC_TESTAPP);
 	wcex.lpszClassName	= szWindowClass;
 	wcex.hIconSm		= LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
@@ -120,7 +120,7 @@ fimage test_image;
 
 void INIT()
 {
-   test_image = fimage_load(L"images\\sample.bmp");
+   test_image = fimage_load(L"images\\162.png");
 }
 
 void RELEASE()
