@@ -2,3 +2,4 @@ LIBRARY fimage
 EXPORTS
 	fimage_load
 	fimage_unload
+	fimage_render
