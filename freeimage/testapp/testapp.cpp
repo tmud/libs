@@ -120,7 +120,7 @@ fimage test_image;
 
 void INIT()
 {
-   test_image = fimage_load(L"images\\162.png");
+   test_image = fimage_load(L"images\\sample.png");
 }
 
 void RELEASE()
