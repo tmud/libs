@@ -14,12 +14,18 @@
     <ClCompile Include="fimage.cpp">
       <Filter>Main Files</Filter>
     </ClCompile>
+    <ClCompile Include="multimap.cpp">
+      <Filter>Main Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>Main Files</Filter>
     </ClInclude>
     <ClInclude Include="fimage.h">
+      <Filter>Main Files</Filter>
+    </ClInclude>
+    <ClInclude Include="multimap.h">
       <Filter>Main Files</Filter>
     </ClInclude>
   </ItemGroup>

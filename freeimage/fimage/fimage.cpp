@@ -1,57 +1,26 @@
 #include "stdafx.h"
 #include "fimage.h"
+#include "multimap.h"
 
 FIBITMAP* get(fimage fi) { return (FIBITMAP*)(fi); }
 
-inline void 
-xxx_ConvertLine8To32MapTransparency(BYTE *target, BYTE *source, int width_in_pixels, RGBQUAD *palette, BYTE *table, int transparent_pixels) {
-	for (int cols = 0; cols < width_in_pixels; cols++) {
-		target[FI_RGBA_BLUE]	= palette[source[cols]].rgbBlue;
-		target[FI_RGBA_GREEN]	= palette[source[cols]].rgbGreen;
-		target[FI_RGBA_RED]		= palette[source[cols]].rgbRed;
-		target[FI_RGBA_ALPHA] = (source[cols] < transparent_pixels) ? table[source[cols]] : 255;
-		target += 4;		
-	}
-}
-
-fimage fimage_load(const wchar_t* file)
+fimage fimage_load(const wchar_t* file, int extra)
 {
     FREE_IMAGE_FORMAT fif = FreeImage_GetFileTypeU(file);
     if (fif == FIF_UNKNOWN)
         return NULL;
-    FIBITMAP *dib = FreeImage_LoadU(fif, file);
-
-    unsigned int bpp = FreeImage_GetBPP(dib);
-    if (FreeImage_IsTransparent(dib) && bpp == 8 && fif == FIF_JNG)
+    if (fif == FIF_GIF || fif == FIF_ICO)
     {
-        const int width = FreeImage_GetWidth(dib);
-	    const int height = FreeImage_GetHeight(dib);
-		FIBITMAP *new_dib = FreeImage_Allocate(width, height, 32, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
-		if(new_dib == NULL) {
-            FreeImage_Unload(dib);
-			return NULL;
-		}
-        FreeImage_CloneMetadata(new_dib, dib);
-        for (int rows = 0; rows < height; rows++) 
-        {
-	        xxx_ConvertLine8To32MapTransparency(FreeImage_GetScanLine(new_dib, rows), FreeImage_GetScanLine(dib, rows), width, FreeImage_GetPalette(dib), FreeImage_GetTransparencyTable(dib), FreeImage_GetTransparencyCount(dib));
-        }
-        
-        //FIBITMAP* new_dib = FreeImage_ConvertTo32Bits(dib);
-        FreeImage_Unload(dib);
-        dib = new_dib;
-
-        //FreeImage_SetTransparent(dib, false);
+        return loadMultimapImageU(file, fif, extra);
     }
-
-    bpp = FreeImage_GetBPP(dib);
-    if (bpp > 32)
+    FIBITMAP *dib = FreeImage_LoadU(fif, file);
+    unsigned int bpp = FreeImage_GetBPP(dib);
+    if (bpp > 32 || (FreeImage_IsTransparent(dib) && bpp <= 8 && fif == FIF_PNG))
     {
         FIBITMAP* new_dib = FreeImage_ConvertTo32Bits(dib);
         FreeImage_Unload(dib);
         dib = new_dib;
     }
-
     return dib;
 }
 
@@ -66,7 +35,7 @@ void fimage_render(HDC dc, fimage fi, int x, int y)
 {
     FIBITMAP *dib = get(fi);
     if (!dib) return;
-    fimage_renderex(dc, fi, x, y, x+FreeImage_GetWidth(dib), y+ FreeImage_GetHeight(dib));
+    fimage_renderex(dc, fi, x, y, FreeImage_GetWidth(dib), FreeImage_GetHeight(dib));
 }
 
 void fimage_renderex(HDC dc, fimage fi, int x, int y, int w, int h)
@@ -82,9 +51,6 @@ void fimage_renderex(HDC dc, fimage fi, int x, int y, int w, int h)
     }
     else
     {
-        /*RGBQUAD color = { 255, 255, 255, 0 };
-        FreeImage_SetBackgroundColor(dib, &color);*/
-        
         HBITMAP bitmap = CreateDIBitmap(dc, FreeImage_GetInfoHeader(dib),
             CBM_INIT, FreeImage_GetBits(dib), FreeImage_GetInfo(dib), DIB_RGB_COLORS);
         HDC dcMem = CreateCompatibleDC(dc);
@@ -103,65 +69,32 @@ void fimage_renderex(HDC dc, fimage fi, int x, int y, int w, int h)
         }
         else
         {
-            unsigned int colors = FreeImage_GetTransparencyCount(dib);
-
-            if (false) 
+            int tindex = FreeImage_GetTransparentIndex(dib);
+            if (tindex != -1)
             {
-                HDC dcMemTrans = CreateCompatibleDC(dc);
-                HBITMAP mask = CreateBitmap(FreeImage_GetWidth(dib), FreeImage_GetHeight(dib), 1, 1, FreeImage_GetTransparencyTable(dib));
-                HBITMAP hOldBitmapMaks = (HBITMAP)SelectObject(dcMemTrans, mask);
-
-                //BitBlt(dc, x, y, w, h, dcMem, 0, 0, SRCCOPY);
-
-              	BitBlt(dc, x, y, w, h, dcMem, 0, 0, SRCINVERT);
-            	//BitBlt(dc, x, y, w, h, dcMemTrans, 0, 0, SRCAND);
-	            BitBlt(dc, x, y, w, h, dcMem, 0, 0, SRCINVERT);
-
-                SelectObject(dcMemTrans, hOldBitmapMaks);
-                DeleteDC(dcMemTrans);
-                DeleteObject(mask);
-            }
-            else 
-            {
-
-            /*if (FreeImage_HasBackgroundColor(dib))
-            {
-                RGBQUAD tcolor;
-                FreeImage_GetBackgroundColor(dib, &tcolor);
+                RGBQUAD *pal = FreeImage_GetPalette(dib);
+                RGBQUAD tcolor = pal[tindex];
                 COLORREF tc = RGB(tcolor.rgbRed, tcolor.rgbGreen, tcolor.rgbBlue);
                 TransparentBlt(dc, x, y, w, h, dcMem, 0, 0,  FreeImage_GetWidth(dib), FreeImage_GetHeight(dib), tc);
             }
-            else*/
+            else
             {
-                int tindex = FreeImage_GetTransparentIndex(dib);
-                if (tindex != -1)
+                if (FreeImage_HasBackgroundColor(dib))
                 {
-                    RGBQUAD *pal = FreeImage_GetPalette(dib);
-                    RGBQUAD tcolor = pal[tindex];
-                    COLORREF tc = RGB(tcolor.rgbRed, tcolor.rgbGreen, tcolor.rgbBlue);
-                    TransparentBlt(dc, x, y, w, h, dcMem, 0, 0,  FreeImage_GetWidth(dib), FreeImage_GetHeight(dib), tc);
+                   RGBQUAD bc;
+                   FreeImage_GetBackgroundColor(dib, &bc);
+                   COLORREF bcolor = RGB(bc.rgbRed, bc.rgbGreen, bc.rgbBlue);
+                   TransparentBlt(dc, x, y, w, h, dcMem, 0, 0,  FreeImage_GetWidth(dib), FreeImage_GetHeight(dib), bcolor);
                 }
                 else
                 {
-
-                    if (FreeImage_HasBackgroundColor(dib))
-                    {
-                        RGBQUAD tcolor;
-                        FreeImage_GetBackgroundColor(dib, &tcolor);
-                        COLORREF tc = RGB(tcolor.rgbRed, tcolor.rgbGreen, tcolor.rgbBlue);
-                        TransparentBlt(dc, x, y, w, h, dcMem, 0, 0,  FreeImage_GetWidth(dib), FreeImage_GetHeight(dib), tc);
-                    }
-                    else
-                    {
-                        SetStretchBltMode(dc, COLORONCOLOR);
-                        StretchDIBits(dc, x, y, w, h,
-                        0, 0, FreeImage_GetWidth(dib), FreeImage_GetHeight(dib),
-                        FreeImage_GetBits(dib), FreeImage_GetInfo(dib), DIB_RGB_COLORS, SRCCOPY);
-                    }
+                   SetStretchBltMode(dc, COLORONCOLOR);
+                   StretchDIBits(dc, x, y, w, h,
+                   0, 0, FreeImage_GetWidth(dib), FreeImage_GetHeight(dib),
+                   FreeImage_GetBits(dib), FreeImage_GetInfo(dib), DIB_RGB_COLORS, SRCCOPY);
                 }
-            }}
+            }
         }
-
         SelectObject(dcMem, hOldBitmap);
         DeleteDC(dcMem);
         DeleteObject(bitmap);

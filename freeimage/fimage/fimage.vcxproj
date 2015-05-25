@@ -103,10 +103,12 @@ copy fimage.h ..\lib</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="fimage.h" />
+    <ClInclude Include="multimap.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="fimage.cpp" />
+    <ClCompile Include="multimap.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

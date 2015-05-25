@@ -1,11 +1,29 @@
-// testapp.cpp : Defines the entry point for the application.
-//
-
 #include "stdafx.h"
 #include "resource.h"
 
 #include "fimage.h"
-#pragma comment(lib, "fimage.lib")
+
+fimage test_image = NULL;
+fimage test_image2 = NULL;
+
+void INIT()
+{
+    test_image = fimage_load(L"images\\sample.png", 0);
+    test_image2 = fimage_load(L"images\\app_icon.ico", 32);
+}
+
+void RELEASE()
+{
+    fimage_unload(test_image2);
+    fimage_unload(test_image);
+}
+
+void RENDER(HWND hwnd, HDC hdc)
+{
+    // render order
+    fimage_renderex(hdc, test_image, 80, 80, 200, 200);
+    fimage_render(hdc, test_image2, 10, 10);
+}
 
 #define MAX_LOADSTRING 100
 
@@ -58,9 +76,6 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	return (int) msg.wParam;
 }
 
-
-
-//
 //  FUNCTION: MyRegisterClass()
 //
 //  PURPOSE: Registers the window class.
@@ -114,24 +129,6 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    UpdateWindow(hWnd);
 
    return TRUE;
-}
-
-fimage test_image;
-
-void INIT()
-{
-   test_image = fimage_load(L"images\\sample.png");
-}
-
-void RELEASE()
-{
-    fimage_unload(test_image);
-}
-
-void RENDER(HWND hwnd, HDC hdc)
-{
-    // test code 
-    fimage_render(hdc, test_image, 0, 0);
 }
 
 //
