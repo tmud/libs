@@ -8,6 +8,9 @@ fimage test_image2 = NULL;
 
 void INIT()
 {
+    fimage_init();
+    char buffer[MAX_PATH];
+    GetCurrentDirectory(MAX_PATH, buffer);
     test_image = fimage_load(L"images\\sample.png", 0);
     test_image2 = fimage_load(L"images\\app_icon.ico", 32);
 }
@@ -16,6 +19,7 @@ void RELEASE()
 {
     fimage_unload(test_image2);
     fimage_unload(test_image);
+    fimage_release();
 }
 
 void RENDER(HWND hwnd, HDC hdc)

@@ -1,0 +1,1 @@
+temporary dir for lib and header files

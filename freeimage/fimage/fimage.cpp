@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "fimage.h"
 #include "multimap.h"
+#pragma comment(lib, "msimg32.lib")
 
 FIBITMAP* get(fimage fi) { return (FIBITMAP*)(fi); }
 
@@ -125,7 +126,17 @@ int fimage_memsize(fimage fi)
     return static_cast<int>(ms);
 }
 
-BOOL APIENTRY DllMain(HMODULE hModule,
+void fimage_init()
+{
+    FreeImage_Initialise(TRUE);
+}
+
+void fimage_release()
+{
+    FreeImage_DeInitialise();
+}
+
+/*BOOL APIENTRY DllMain(HMODULE hModule,
     DWORD  ul_reason_for_call,
     LPVOID lpReserved
     )
@@ -143,4 +154,4 @@ BOOL APIENTRY DllMain(HMODULE hModule,
         break;
     }
     return TRUE;
-}
+}*/

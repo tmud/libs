@@ -1,5 +1,8 @@
 #pragma once
 
+void fimage_init();
+void fimage_release();
+
 typedef void* fimage;                                   // support jpg, png, bmp, gif, ico
 fimage fimage_load(const wchar_t* file, int extra);     // extra - ico (size of icon), gif (number of frame), other ignored.
 void fimage_render(HDC dc, fimage fi, int x, int y);    // render without scaling
