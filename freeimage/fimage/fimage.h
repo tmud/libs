@@ -13,5 +13,9 @@ int  fimage_height(fimage fi);                          // height
 int  fimage_memsize(fimage fi);                         // size of image in memory
 
 #ifndef FIMAGE_EXPORTS
+#ifdef _DEBUG
+#pragma comment(lib, "fimaged.lib")
+#else
 #pragma comment(lib, "fimage.lib")
+#endif
 #endif
