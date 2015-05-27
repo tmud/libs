@@ -62,7 +62,7 @@
 if exist FreeImage\FreeImage.2013.sln goto skip_unzip
 call unzip.bat
 :skip_unzip
-copy FreeImage\Source\FreeImage.h $(SolutionDir)\libs\include</Command>
+copy fimage\fimage.h $(SolutionDir)\libs\include</Command>
     </PreBuildEvent>
     <CustomBuildStep>
       <Command>
@@ -94,7 +94,7 @@ $(BuildSystem) FreeImage.2013.sln /p:WarningLevel=0 /p:Configuration=$(Configura
 if exist FreeImage\FreeImage.2013.sln goto skip_unzip
 call unzip.bat
 :skip_unzip
-copy FreeImage\Source\FreeImage.h $(SolutionDir)\libs\include</Command>
+copy fimage\fimage.h $(SolutionDir)\libs\include</Command>
     </PreBuildEvent>
     <CustomBuildStep>
       <Command>
