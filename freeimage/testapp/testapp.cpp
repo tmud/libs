@@ -5,6 +5,8 @@
 
 fimage test_image = NULL;
 fimage test_image2 = NULL;
+fimage test_image3 = NULL;
+fimage test_image4 = NULL;
 
 void INIT()
 {
@@ -12,11 +14,15 @@ void INIT()
     char buffer[MAX_PATH];
     GetCurrentDirectory(MAX_PATH, buffer);
     test_image = fimage_load(L"images\\sample.png", 0);
-    test_image2 = fimage_load(L"images\\app_icon.ico", 32);
+    test_image2 = fimage_load(L"images\\mudclient.ico", 32);
+    test_image3 = fimage_load(L"images\\bigset24.png", 0);
+    test_image4 = fimage_cut(test_image3, 24, 0, 24, 24);
 }
 
 void RELEASE()
 {
+    fimage_unload(test_image4);
+    fimage_unload(test_image3);
     fimage_unload(test_image2);
     fimage_unload(test_image);
     fimage_release();
@@ -26,7 +32,8 @@ void RENDER(HWND hwnd, HDC hdc)
 {
     // render order
     fimage_renderex(hdc, test_image, 80, 80, 200, 200);
-    fimage_render(hdc, test_image2, 10, 10);
+    fimage_render(hdc, test_image2, 0, 0);
+    fimage_render(hdc, test_image4, 320, 120);
 }
 
 #define MAX_LOADSTRING 100

@@ -10,8 +10,9 @@ fimage fimage_load(const wchar_t* file, int extra)
     FREE_IMAGE_FORMAT fif = FreeImage_GetFileTypeU(file);
     if (fif == FIF_UNKNOWN)
         return NULL;
-    if (fif == FIF_GIF || fif == FIF_ICO)
+    if (fif == FIF_GIF || (fif == FIF_ICO && extra > 0))
     {
+        if (extra < 0) return NULL;
         return loadMultimapImageU(file, fif, extra);
     }
     FIBITMAP *dib = FreeImage_LoadU(fif, file);
@@ -30,6 +31,14 @@ void fimage_unload(fimage fi)
     FIBITMAP *dib = get(fi);
     if (dib)
         FreeImage_Unload(dib);
+}
+
+fimage fimage_cut(fimage fi, int x, int y, int w, int h)
+{
+    FIBITMAP *dib = get(fi);
+    if (!dib) return NULL;
+    FIBITMAP *new_dib = FreeImage_Copy(dib, x, y, x+w, y+h);
+    return new_dib;
 }
 
 void fimage_render(HDC dc, fimage fi, int x, int y)

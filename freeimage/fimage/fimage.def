@@ -2,6 +2,7 @@ LIBRARY fimage
 EXPORTS
 	fimage_load
 	fimage_unload
+	fimage_cut
 	fimage_render
 	fimage_renderex
 	fimage_width
