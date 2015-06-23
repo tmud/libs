@@ -53,6 +53,7 @@ public:
         if (len > getSize()) return false;
         memcpy(data, getData(), len);
         truncate(len);
+        return true;
     }
 
     void* getData() const
