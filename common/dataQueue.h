@@ -47,6 +47,14 @@ public:
         m_dataSize = m_dataSize + len;
     }
 
+    bool read(void *data, int len)
+    {
+        assert(data && len >= 0);
+        if (len > getSize()) return false;
+        memcpy(data, getData(), len);
+        truncate(len);
+    }
+
     void* getData() const
     {
         char *data = m_data.getData();
