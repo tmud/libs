@@ -632,7 +632,11 @@ xmlNodeListDumpOutput(xmlSaveCtxtPtr ctxt, xmlNodePtr cur) {
 				 ctxt->indent);
         xmlNodeDumpOutputInternal(ctxt, cur);
 	if (ctxt->format) {
-	    xmlOutputBufferWrite(buf, 1, "\n");
+#ifdef _WIN32
+	    xmlOutputBufferWrite(buf, 2, "\r\n");
+#else
+        xmlOutputBufferWrite(buf, 1, "\n");
+#endif
 	}
 	cur = cur->next;
     }
@@ -795,7 +799,14 @@ xmlNodeDumpOutputInternal(xmlSaveCtxtPtr ctxt, xmlNodePtr cur) {
 	xmlOutputBufferWriteEscape(buf, cur->content, ctxt->escape);
     }
     if (cur->children != NULL) {
-	if (ctxt->format) xmlOutputBufferWrite(buf, 1, "\n");
+	if (ctxt->format) 
+    {
+#ifdef _WIN32
+        xmlOutputBufferWrite(buf, 2, "\r\n");
+#else
+        xmlOutputBufferWrite(buf, 1, "\n");
+#endif
+    }
 	if (ctxt->level >= 0) ctxt->level++;
 	xmlNodeListDumpOutput(ctxt, cur->children);
 	if (ctxt->level > 0) ctxt->level--;
@@ -905,7 +916,12 @@ xmlDocContentDumpOutput(xmlSaveCtxtPtr ctxt, xmlDocPtr cur) {
 		xmlOutputBufferWrite(buf, 17, " standalone=\"yes\"");
 		break;
 	}
-	xmlOutputBufferWrite(buf, 3, "?>\n");
+	xmlOutputBufferWrite(buf, 2, "?>");
+#ifdef _WIN32
+    xmlOutputBufferWrite(buf, 2, "\r\n");
+#else
+    xmlOutputBufferWrite(buf, 1, "\n");
+#endif
     }
 
 #ifdef LIBXML_HTML_ENABLED
@@ -928,7 +944,11 @@ xmlDocContentDumpOutput(xmlSaveCtxtPtr ctxt, xmlDocPtr cur) {
 	    else
 #endif
 		xmlNodeDumpOutputInternal(ctxt, child);
+#ifdef _WIN32
+        xmlOutputBufferWrite(buf, 2, "\r\n");
+#else
 	    xmlOutputBufferWrite(buf, 1, "\n");
+#endif
 	    child = child->next;
 	}
     }

@@ -299,6 +299,8 @@ int xmlSave(xnode node, const char *filename)
         FILE* file = fopen(filename, "wb");
         if (file != NULL)
         {
+            unsigned char bom[3] = { 0xef, 0xbb, 0xbf };
+            fwrite(bom, 1, 3, file);
             fwrite(buff->content, 1, output_stream_len, file);
             fflush(file);
             fclose(file);
