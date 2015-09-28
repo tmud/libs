@@ -41,22 +41,12 @@ fimage fimage_cut(fimage fi, int x, int y, int w, int h)
     return new_dib;
 }
 
-void fimage_render(HDC dc, fimage fi, int x, int y)
+void fimage_render_master(HDC dc, FIBITMAP* dib, int x, int y, int w, int h, int from_x, int from_y)
 {
-    FIBITMAP *dib = get(fi);
-    if (!dib) return;
-    fimage_renderex(dc, fi, x, y, FreeImage_GetWidth(dib), FreeImage_GetHeight(dib));
-}
-
-void fimage_renderex(HDC dc, fimage fi, int x, int y, int w, int h)
-{
-    FIBITMAP *dib = get(fi);
-    if (!dib) return;
-
     if (!FreeImage_IsTransparent(dib))
     {
          SetStretchBltMode(dc, COLORONCOLOR);
-         StretchDIBits(dc, x, y, w, h, 0, 0, FreeImage_GetWidth(dib), FreeImage_GetHeight(dib),
+         StretchDIBits(dc, x, y, w, h, from_x, from_y, FreeImage_GetWidth(dib), FreeImage_GetHeight(dib),
          FreeImage_GetBits(dib), FreeImage_GetInfo(dib), DIB_RGB_COLORS, SRCCOPY);
     }
     else
@@ -75,7 +65,7 @@ void fimage_renderex(HDC dc, fimage fi, int x, int y, int w, int h)
             bf.BlendFlags  = 0;
             bf.SourceConstantAlpha = 255;
             bf.BlendOp = AC_SRC_OVER;
-            AlphaBlend(dc, x, y, w, h, dcMem, 0, 0, FreeImage_GetWidth(dib), FreeImage_GetHeight(dib), bf);
+            AlphaBlend(dc, x, y, w, h, dcMem, from_x, from_y, FreeImage_GetWidth(dib), FreeImage_GetHeight(dib), bf);
         }
         else
         {
@@ -85,7 +75,7 @@ void fimage_renderex(HDC dc, fimage fi, int x, int y, int w, int h)
                 RGBQUAD *pal = FreeImage_GetPalette(dib);
                 RGBQUAD tcolor = pal[tindex];
                 COLORREF tc = RGB(tcolor.rgbRed, tcolor.rgbGreen, tcolor.rgbBlue);
-                TransparentBlt(dc, x, y, w, h, dcMem, 0, 0,  FreeImage_GetWidth(dib), FreeImage_GetHeight(dib), tc);
+                TransparentBlt(dc, x, y, w, h, dcMem, from_x, from_y, FreeImage_GetWidth(dib), FreeImage_GetHeight(dib), tc);
             }
             else
             {
@@ -94,13 +84,12 @@ void fimage_renderex(HDC dc, fimage fi, int x, int y, int w, int h)
                    RGBQUAD bc;
                    FreeImage_GetBackgroundColor(dib, &bc);
                    COLORREF bcolor = RGB(bc.rgbRed, bc.rgbGreen, bc.rgbBlue);
-                   TransparentBlt(dc, x, y, w, h, dcMem, 0, 0,  FreeImage_GetWidth(dib), FreeImage_GetHeight(dib), bcolor);
+                   TransparentBlt(dc, x, y, w, h, dcMem, from_x, from_y, FreeImage_GetWidth(dib), FreeImage_GetHeight(dib), bcolor);
                 }
                 else
                 {
                    SetStretchBltMode(dc, COLORONCOLOR);
-                   StretchDIBits(dc, x, y, w, h,
-                   0, 0, FreeImage_GetWidth(dib), FreeImage_GetHeight(dib),
+                   StretchDIBits(dc, x, y, w, h, from_x, from_y, FreeImage_GetWidth(dib), FreeImage_GetHeight(dib),
                    FreeImage_GetBits(dib), FreeImage_GetInfo(dib), DIB_RGB_COLORS, SRCCOPY);
                 }
             }
@@ -108,6 +97,21 @@ void fimage_renderex(HDC dc, fimage fi, int x, int y, int w, int h)
         SelectObject(dcMem, hOldBitmap);
         DeleteDC(dcMem);
         DeleteObject(bitmap);
+    }
+}
+
+void fimage_render(HDC dc, fimage fi, int x, int y, fimage_render_ex *p)
+{
+    FIBITMAP *dib = get(fi);
+    if (!dib) return;
+    if (!p)
+        fimage_render_master(dc, dib, x, y, FreeImage_GetWidth(dib), FreeImage_GetHeight(dib), 0, 0);
+    else
+    {
+        if (p->w <= 0 || p->h <= 0)
+          fimage_render_master(dc, dib, x, y, FreeImage_GetWidth(dib), FreeImage_GetHeight(dib), max(0, p->sx), max(0, p->sy));
+        else
+          fimage_render_master(dc, dib, x, y, p->w, p->h, max(0, p->sx), max(0, p->sy));  
     }
 }
 

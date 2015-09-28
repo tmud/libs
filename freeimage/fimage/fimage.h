@@ -7,11 +7,16 @@ typedef void* fimage;                                   // support jpg, png, bmp
 fimage fimage_load(const wchar_t* file, int extra);     // extra - ico (size of icon), gif (number of frame), other ignored.
 void fimage_unload(fimage fi);                          // unload image
 fimage fimage_cut(fimage fi, int x, int y, int w, int h); // cut subimage from another
-void fimage_render(HDC dc, fimage fi, int x, int y);    // render without scaling
-void fimage_renderex(HDC dc, fimage fi, int x, int y, int w, int h);    // render in rect with rescalling
 int  fimage_width(fimage fi);                           // width of image
 int  fimage_height(fimage fi);                          // height
 int  fimage_memsize(fimage fi);                         // size of image in memory
+
+struct fimage_render_ex                                 // render extends parameters
+{
+    int w, h;                                           // scaling (width/height of dest. rect); w/h=0 - default (no scale)
+    int sx, sy;                                         // source image position
+};
+void fimage_render(HDC dc, fimage fi, int x, int y, fimage_render_ex *p); // p can be NULL
 
 #ifndef FIMAGE_EXPORTS
 #ifdef _DEBUG
