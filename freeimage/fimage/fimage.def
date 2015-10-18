@@ -4,7 +4,6 @@ EXPORTS
 	fimage_unload
 	fimage_cut
 	fimage_render
-	fimage_renderex
 	fimage_width
 	fimage_height
 	fimage_memsize

@@ -41,12 +41,12 @@ fimage fimage_cut(fimage fi, int x, int y, int w, int h)
     return new_dib;
 }
 
-void fimage_render_master(HDC dc, FIBITMAP* dib, int x, int y, int w, int h, int from_x, int from_y)
+void fimage_render_master(HDC dc, FIBITMAP* dib, int x, int y, int w, int h, int sx, int sy, int sw, int sh)
 {
     if (!FreeImage_IsTransparent(dib))
     {
          SetStretchBltMode(dc, COLORONCOLOR);
-         StretchDIBits(dc, x, y, w, h, from_x, from_y, FreeImage_GetWidth(dib), FreeImage_GetHeight(dib),
+         StretchDIBits(dc, x, y, w, h, sx, sy, (sw > 0) ? sw : FreeImage_GetWidth(dib), (sh > 0) ? sh : FreeImage_GetHeight(dib), 
          FreeImage_GetBits(dib), FreeImage_GetInfo(dib), DIB_RGB_COLORS, SRCCOPY);
     }
     else
@@ -65,7 +65,7 @@ void fimage_render_master(HDC dc, FIBITMAP* dib, int x, int y, int w, int h, int
             bf.BlendFlags  = 0;
             bf.SourceConstantAlpha = 255;
             bf.BlendOp = AC_SRC_OVER;
-            AlphaBlend(dc, x, y, w, h, dcMem, from_x, from_y, FreeImage_GetWidth(dib), FreeImage_GetHeight(dib), bf);
+            AlphaBlend(dc, x, y, w, h, dcMem, sx, sy, (sw > 0) ? sw : FreeImage_GetWidth(dib), (sh > 0) ? sh : FreeImage_GetHeight(dib), bf);
         }
         else
         {
@@ -75,7 +75,7 @@ void fimage_render_master(HDC dc, FIBITMAP* dib, int x, int y, int w, int h, int
                 RGBQUAD *pal = FreeImage_GetPalette(dib);
                 RGBQUAD tcolor = pal[tindex];
                 COLORREF tc = RGB(tcolor.rgbRed, tcolor.rgbGreen, tcolor.rgbBlue);
-                TransparentBlt(dc, x, y, w, h, dcMem, from_x, from_y, FreeImage_GetWidth(dib), FreeImage_GetHeight(dib), tc);
+                TransparentBlt(dc, x, y, w, h, dcMem, sx, sy, (sw > 0) ? sw : FreeImage_GetWidth(dib), (sh > 0) ? sh : FreeImage_GetHeight(dib), tc);
             }
             else
             {
@@ -84,12 +84,12 @@ void fimage_render_master(HDC dc, FIBITMAP* dib, int x, int y, int w, int h, int
                    RGBQUAD bc;
                    FreeImage_GetBackgroundColor(dib, &bc);
                    COLORREF bcolor = RGB(bc.rgbRed, bc.rgbGreen, bc.rgbBlue);
-                   TransparentBlt(dc, x, y, w, h, dcMem, from_x, from_y, FreeImage_GetWidth(dib), FreeImage_GetHeight(dib), bcolor);
+                   TransparentBlt(dc, x, y, w, h, dcMem, sx, sy, (sw > 0) ? sw : FreeImage_GetWidth(dib), (sh > 0) ? sh : FreeImage_GetHeight(dib), bcolor);
                 }
                 else
                 {
                    SetStretchBltMode(dc, COLORONCOLOR);
-                   StretchDIBits(dc, x, y, w, h, from_x, from_y, FreeImage_GetWidth(dib), FreeImage_GetHeight(dib),
+                   StretchDIBits(dc, x, y, w, h, sx, sy, (sw > 0) ? sw : FreeImage_GetWidth(dib), (sh > 0) ? sh : FreeImage_GetHeight(dib),
                    FreeImage_GetBits(dib), FreeImage_GetInfo(dib), DIB_RGB_COLORS, SRCCOPY);
                 }
             }
@@ -100,19 +100,37 @@ void fimage_render_master(HDC dc, FIBITMAP* dib, int x, int y, int w, int h, int
     }
 }
 
-void fimage_render(HDC dc, fimage fi, int x, int y, fimage_render_ex *p)
+int fimage_render(HDC dc, fimage fi, int x, int y, fimage_render_ex *p)
 {
     FIBITMAP *dib = get(fi);
-    if (!dib) return;
+    if (!dib) 
+        return 0;
     if (!p)
-        fimage_render_master(dc, dib, x, y, FreeImage_GetWidth(dib), FreeImage_GetHeight(dib), 0, 0);
-    else
     {
-        if (p->w <= 0 || p->h <= 0)
-          fimage_render_master(dc, dib, x, y, FreeImage_GetWidth(dib), FreeImage_GetHeight(dib), max(0, p->sx), max(0, p->sy));
-        else
-          fimage_render_master(dc, dib, x, y, p->w, p->h, max(0, p->sx), max(0, p->sy));  
+        fimage_render_master(dc, dib, x, y, FreeImage_GetWidth(dib), FreeImage_GetHeight(dib), 0, 0, 0, 0);
+        return 1;
     }
+
+    if (p->w < 0 || p->h < 0)
+        return 0;
+    if (p->sx < 0 || p->sy < 0 || p->sw < 0 || p->sh < 0)
+        return 0;
+
+    int image_w = FreeImage_GetWidth(dib);
+    int image_h = FreeImage_GetHeight(dib);
+
+    if (p->sx + p->sw > image_w)
+        return 0;
+    if (p->sy + p->sh > image_h)
+        return 0;
+
+    if (p->w > 0)
+        image_w = p->w;
+     if (p->h > 0)
+        image_h = p->h;
+
+     fimage_render_master(dc, dib, x, y, image_w, image_h, p->sx, p->sy, p->sw, p->sh);
+     return 1;
 }
 
 int fimage_width(fimage fi)

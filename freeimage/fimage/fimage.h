@@ -14,9 +14,10 @@ int  fimage_memsize(fimage fi);                         // size of image in memo
 struct fimage_render_ex                                 // render extends parameters
 {
     int w, h;                                           // scaling (width/height of dest. rect); w/h=0 - default (no scale)
-    int sx, sy;                                         // source image position
+    int sx, sy;                                         // source image position (part of full image); sx/sy=0 - default
+    int sw, sh;                                         // source image size, sw/sh=0 - default (full image size)
 };
-void fimage_render(HDC dc, fimage fi, int x, int y, fimage_render_ex *p); // p can be NULL
+int fimage_render(HDC dc, fimage fi, int x, int y, fimage_render_ex *p); // p can be NULL, return value - result (0-error,!=0-ok)
 
 #ifndef FIMAGE_EXPORTS
 #ifdef _DEBUG
