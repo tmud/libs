@@ -43,10 +43,13 @@ fimage fimage_cut(fimage fi, int x, int y, int w, int h)
 
 void fimage_render_master(HDC dc, FIBITMAP* dib, int x, int y, int w, int h, int sx, int sy, int sw, int sh)
 {
+    sw = (sw > 0) ? sw : FreeImage_GetWidth(dib);
+    sh = (sh > 0) ? sh : FreeImage_GetHeight(dib);
+    sy = FreeImage_GetHeight(dib) - (sy + sh); // mirror y - axis (image's 0,0 point is bottom-left)
     if (!FreeImage_IsTransparent(dib))
     {
          SetStretchBltMode(dc, COLORONCOLOR);
-         StretchDIBits(dc, x, y, w, h, sx, sy, (sw > 0) ? sw : FreeImage_GetWidth(dib), (sh > 0) ? sh : FreeImage_GetHeight(dib), 
+         StretchDIBits(dc, x, y, w, h, sx, sy, sw, sh, 
          FreeImage_GetBits(dib), FreeImage_GetInfo(dib), DIB_RGB_COLORS, SRCCOPY);
     }
     else
@@ -65,7 +68,7 @@ void fimage_render_master(HDC dc, FIBITMAP* dib, int x, int y, int w, int h, int
             bf.BlendFlags  = 0;
             bf.SourceConstantAlpha = 255;
             bf.BlendOp = AC_SRC_OVER;
-            AlphaBlend(dc, x, y, w, h, dcMem, sx, sy, (sw > 0) ? sw : FreeImage_GetWidth(dib), (sh > 0) ? sh : FreeImage_GetHeight(dib), bf);
+            AlphaBlend(dc, x, y, w, h, dcMem, sx, sy, sw, sh, bf);
         }
         else
         {
@@ -75,7 +78,7 @@ void fimage_render_master(HDC dc, FIBITMAP* dib, int x, int y, int w, int h, int
                 RGBQUAD *pal = FreeImage_GetPalette(dib);
                 RGBQUAD tcolor = pal[tindex];
                 COLORREF tc = RGB(tcolor.rgbRed, tcolor.rgbGreen, tcolor.rgbBlue);
-                TransparentBlt(dc, x, y, w, h, dcMem, sx, sy, (sw > 0) ? sw : FreeImage_GetWidth(dib), (sh > 0) ? sh : FreeImage_GetHeight(dib), tc);
+                TransparentBlt(dc, x, y, w, h, dcMem, sx, sy, sw, sh, tc);
             }
             else
             {
@@ -84,12 +87,12 @@ void fimage_render_master(HDC dc, FIBITMAP* dib, int x, int y, int w, int h, int
                    RGBQUAD bc;
                    FreeImage_GetBackgroundColor(dib, &bc);
                    COLORREF bcolor = RGB(bc.rgbRed, bc.rgbGreen, bc.rgbBlue);
-                   TransparentBlt(dc, x, y, w, h, dcMem, sx, sy, (sw > 0) ? sw : FreeImage_GetWidth(dib), (sh > 0) ? sh : FreeImage_GetHeight(dib), bcolor);
+                   TransparentBlt(dc, x, y, w, h, dcMem, sx, sy, sw, sh, bcolor);
                 }
                 else
                 {
                    SetStretchBltMode(dc, COLORONCOLOR);
-                   StretchDIBits(dc, x, y, w, h, sx, sy, (sw > 0) ? sw : FreeImage_GetWidth(dib), (sh > 0) ? sh : FreeImage_GetHeight(dib),
+                   StretchDIBits(dc, x, y, w, h, sx, sy, sw, sh,
                    FreeImage_GetBits(dib), FreeImage_GetInfo(dib), DIB_RGB_COLORS, SRCCOPY);
                 }
             }
