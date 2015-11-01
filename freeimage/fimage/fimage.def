@@ -7,3 +7,9 @@ EXPORTS
 	fimage_width
 	fimage_height
 	fimage_memsize
+	fimage_getpixel
+	fimage_setpixel
+	fimage_getindex
+	fimage_setindex
+	fimage_getpalette
+	fimage_setpalette

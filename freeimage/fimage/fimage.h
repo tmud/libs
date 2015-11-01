@@ -19,6 +19,13 @@ struct fimage_render_ex                                 // render extends parame
 };
 int fimage_render(HDC dc, fimage fi, int x, int y, fimage_render_ex *p); // p can be NULL, return value - result (0-error,!=0-ok)
 
+int  fimage_getpixel(fimage fi, int x, int y, COLORREF* c);// get image pixel (16/24/32 bits images), return 0/1 - false/true
+int  fimage_setpixel(fimage fi, int x, int y, COLORREF c); // set image pixel (16/24/32 bits images), return 0/1 - false/true
+int  fimage_getindex(fimage fi, int x, int y, int *index); // get color index (1/4/8 bits images)
+int  fimage_setindex(fimage fi, int x, int y, int index);  // set color index (1/4/8 bits images)
+int  fimage_getpalette(fimage fi, int index, COLORREF* c); // get index color
+int  fimage_setpalette(fimage fi, int index, COLORREF c);  // set index color
+
 #ifndef FIMAGE_EXPORTS
 #ifdef _DEBUG
 #pragma comment(lib, "fimaged.lib")

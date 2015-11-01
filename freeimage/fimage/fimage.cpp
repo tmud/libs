@@ -170,6 +170,100 @@ void fimage_release()
     FreeImage_DeInitialise();
 }
 
+// get image pixel (16/24/32 bits images), return 0/1 - false/true
+int fimage_getpixel(fimage fi, int x, int y, COLORREF* c)
+{
+    FIBITMAP *dib = get(fi);
+    if (!dib || !c) return 0;
+    RGBQUAD color;
+    if (!FreeImage_GetPixelColor(dib, x, y, &color))
+        return 0;
+    *c = RGB(color.rgbRed, color.rgbGreen, color.rgbBlue);
+    return 1;
+}
+
+int fimage_setpixel(fimage fi, int x, int y, COLORREF c)
+{
+    FIBITMAP *dib = get(fi);
+    if (!dib) return 0;
+    RGBQUAD color;
+    color.rgbRed = GetRValue(c);
+    color.rgbBlue = GetBValue(c);
+    color.rgbGreen = GetGValue(c);
+    color.rgbReserved = 0;
+    if (!FreeImage_SetPixelColor(dib, x, y, &color))
+        return 0;
+    return 1;
+}
+
+int fimage_getindex(fimage fi, int x, int y, int *index)
+{
+    FIBITMAP *dib = get(fi);
+    if (!dib || !index) return 0;
+    BYTE tmp = 0;
+    if (!FreeImage_GetPixelIndex(dib, x, y, &tmp))
+        return 0;
+    *index = tmp;
+    return 1;
+}
+int fimage_setindex(fimage fi, int x, int y, int index)
+{
+    FIBITMAP *dib = get(fi);
+    if (!dib) return 0;
+    if (index < 0 || index > 255) return 0;
+    BYTE tmp = static_cast<BYTE>(index);
+    if (!FreeImage_SetPixelIndex(dib, x, y, &tmp))
+        return 0;
+    return 1;
+}
+
+int fimage_getpalette(fimage fi, int index, COLORREF* c)
+{
+    FIBITMAP *dib = get(fi);
+    if (!dib || !c) return 0;
+    RGBQUAD* palette = FreeImage_GetPalette(dib);
+    if (!palette) return 0;
+    int bpp = FreeImage_GetBPP(dib);
+    if (bpp == 8) {
+        if (index < 0 || index > 255) return 0;
+    }     
+    if (bpp == 4) {
+        if (index < 0 || index > 16) return 0;
+    }
+    if (bpp == 1) {
+        if (index < 0 || index > 1) return 0;
+    }
+    if (bpp == 1 || bpp == 4 || bpp == 8) {
+        *c = RGB(palette[index].rgbRed, palette[index].rgbGreen, palette[index].rgbBlue);
+        return 1;
+    }
+    return 0;
+}
+int fimage_setpalette(fimage fi, int index, COLORREF c)
+{
+    FIBITMAP *dib = get(fi);
+    if (!dib) return 0;
+    RGBQUAD* palette = FreeImage_GetPalette(dib);
+    if (!palette) return 0;
+    int bpp = FreeImage_GetBPP(dib);
+    if (bpp == 8) {
+        if (index < 0 || index > 255) return 0;
+    }
+    if (bpp == 4) {
+        if (index < 0 || index > 16) return 0;
+    }
+    if (bpp == 1) {
+        if (index < 0 || index > 1) return 0;
+    }
+    if (bpp == 1 || bpp == 4 || bpp == 8) {
+        palette[index].rgbRed = GetRValue(c);
+        palette[index].rgbGreen = GetGValue(c);
+        palette[index].rgbBlue = GetBValue(c);
+        return 1;
+    }
+    return 0;
+}
+
 /*BOOL APIENTRY DllMain(HMODULE hModule,
     DWORD  ul_reason_for_call,
     LPVOID lpReserved
