@@ -19,7 +19,7 @@ Pcre16::~Pcre16()
     clear();
 }
 
-bool Pcre16::setRegExp(const tstring& regexp, bool extra)
+bool Pcre16::setRegExp(const std::wstring& regexp, bool extra)
 {
     clear();
     if (regexp.empty())
@@ -38,17 +38,17 @@ bool Pcre16::setRegExp(const tstring& regexp, bool extra)
         }
         m_regexp = regexp;
         return true;
-    }    
+    }
     return false;
 }
 
 void Pcre16::find(const std::wstring& string)
 { 
+    m_indexes.clear();
     if (!m_ph)
         return;
 
     m_str = string;
-    m_indexes.clear();
     int params[33];
     const unsigned short *src = (unsigned short*)string.c_str();
     int src_len = string.length();
@@ -74,11 +74,11 @@ void Pcre16::find(const std::wstring& string)
 
 void Pcre16::findAllMatches(const std::wstring& string)
 {
+    m_indexes.clear();
     if (!m_ph)
         return;
  
-    m_str = string;
-    m_indexes.clear();
+    m_str = string;    
     int params[33];
     const unsigned short *src = (unsigned short*)string.c_str();
     int src_len = string.length();
@@ -117,7 +117,7 @@ void Pcre16::getString(int index, std::wstring* str) const
     assert(index>=0 && index<getSize());
     int b = m_indexes[index*2];
     int e = m_indexes[index*2+1];
-    str->assign(m_str.substr(b, e-b));    
+    str->assign(m_str.substr(b, e-b));
 }
 
 void Pcre16::clear()
@@ -128,5 +128,5 @@ void Pcre16::clear()
     m_pe = NULL;
     if (m_ph)
         pcre16_free(m_ph);
-    m_ph = NULL;    
+    m_ph = NULL;
 }
