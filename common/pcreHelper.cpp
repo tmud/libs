@@ -78,7 +78,7 @@ void Pcre16::findAllMatches(const std::wstring& string)
     if (!m_ph)
         return;
  
-    m_str = string;    
+    m_str = string;
     int params[33];
     const unsigned short *src = (unsigned short*)string.c_str();
     int src_len = string.length();
@@ -93,6 +93,16 @@ void Pcre16::findAllMatches(const std::wstring& string)
         m_indexes.push_back(params[1]);
         pos = params[1];
     }
+
+    std::vector<int>& vi = m_indexes;
+    if (vi.empty())
+        return;
+
+    std::vector<int> head;
+    head.push_back(vi[0]);
+    int last = vi.size() - 1;
+    head.push_back(vi[last]);
+    vi.insert(vi.begin(), head.begin(), head.end());
 }
 
 int Pcre16::getSize() const
