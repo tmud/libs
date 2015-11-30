@@ -41,7 +41,9 @@ public:
    {
        if(!m_thread)
            return;
-       WaitForSingleObject(m_thread, INFINITE);
+       //WaitForSingleObject(m_thread, INFINITE); // doesn't working in dll ((
+       while (!isFinished())
+           Sleep(100);
        clear();
    }
 
@@ -69,6 +71,7 @@ private:
         {
            TempThread* _this = (TempThread*)(lpParameter);
            _this->threadProc();
+           _this->clear();
         }
         return 0;
     }
