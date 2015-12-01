@@ -6,10 +6,8 @@ class TempThread
     HANDLE  m_thread;
 protected:
     virtual void threadProc() = 0;
-    bool needStop() const
-    {
-        return (m_stop == 0) ? false : true;
-    }
+    virtual void threadStop() {}
+    bool needStop() const {  return (m_stop == 0) ? false : true; }
 
 public:
     TempThread() : m_thread(NULL), m_stop(0) {}
@@ -35,6 +33,7 @@ public:
    void stop()
    {
        m_stop = 1;
+       threadStop();
    }
 
    void wait()
@@ -42,7 +41,7 @@ public:
        if(!m_thread)
            return;
        //WaitForSingleObject(m_thread, INFINITE); // doesn't working in dll ((
-       while (!isFinished())
+       while (!isFinished())                      // bad, but working
            Sleep(100);
        clear();
    }
