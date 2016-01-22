@@ -6,11 +6,12 @@ class MemoryBuffer
 public:
     MemoryBuffer() : m_pData(NULL), m_size(0), m_allocated(0) {}
     MemoryBuffer(int size) : m_pData(NULL), m_size(0), m_allocated(0) { alloc(size); }
-    ~MemoryBuffer() { delete []m_pData; }        
+    ~MemoryBuffer() { delete []m_pData; }
     char* getData() const { return m_pData; }
-    int getSize() const { return m_size; }     
+    int getSize() const { return m_size; }
     void alloc(int size) { allocf(size, false); }
     void keepalloc(int size) { allocf(size, true); }
+    void copy(void *data, int size) { allocf(size, false); memcpy(m_pData, data, size); }
 
 private:
     void allocf(int size, bool keepdata)

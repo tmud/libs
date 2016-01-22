@@ -6,6 +6,7 @@ class DataQueue
 {
 public:
     DataQueue() : m_dataSize(0), m_trucatedSize(0) {}
+    DataQueue(int datasize) : m_dataSize(0), m_trucatedSize(0) { m_data.alloc(datasize); }
     ~DataQueue() {}
 
     void truncate(int len)
@@ -15,6 +16,16 @@ public:
         if (newTruncate > m_dataSize)
             newTruncate = m_dataSize;
         m_trucatedSize = newTruncate;
+    }
+
+    void write(const MemoryBuffer& mb)
+    {
+        write(mb.getData(), mb.getSize());
+    }
+
+    void write(const DataQueue& dq)
+    {
+        write(dq.getData(), dq.getSize());
     }
 
     void write(const void *data, int len)
@@ -45,6 +56,20 @@ public:
         out = out + m_dataSize;
         memcpy(out, data, len);
         m_dataSize = m_dataSize + len;
+    }
+
+    int read(MemoryBuffer* mb)
+    {
+        int size = min(getSize(), mb->getSize());
+        memcpy(mb->getData(), getData(), size);
+        return size;
+    }
+
+    int read(DataQueue* dq)
+    {
+        int data_size = getSize();
+        dq->write(getData(), data_size);
+        return data_size;
     }
 
     bool read(void *data, int len)
