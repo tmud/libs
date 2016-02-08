@@ -1,5 +1,6 @@
 #pragma once
 
+template<bool indll>
 class TempThread
 {
     volatile int m_stop;
@@ -39,10 +40,19 @@ public:
    void wait()
    {
        if(!m_thread)
+       {
+           clear();
            return;
-       //WaitForSingleObject(m_thread, INFINITE); // doesn't working in dll ((
-       while (!isFinished())                      // bad, but working
-           Sleep(100);
+       }
+       if (!indll)
+       {
+           WaitForSingleObject(m_thread, INFINITE);   // doesn't working in dll ((
+       }
+       else
+       {
+           while (!isFinished())                      // bad, but working in dll
+               Sleep(100);
+       }
        clear();
    }
 
