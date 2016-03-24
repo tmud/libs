@@ -130,6 +130,11 @@ void Pcre16::getString(int index, std::wstring* str) const
     str->assign(m_str.substr(b, e-b));
 }
 
+void Pcre16::getRegexp(std::wstring* regexp) const
+{
+    regexp->assign(m_regexp);
+}
+
 void Pcre16::clear()
 {
     m_regexp.clear();
