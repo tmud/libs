@@ -112,22 +112,24 @@ int Pcre16::getSize() const
 
 int Pcre16::getFirst(int index) const
 {
-    assert(index>=0 && index<getSize());
-    return m_indexes[index*2];
+    return (index>=0 && index<getSize()) ? m_indexes[index*2] : -1;
 }
 
 int Pcre16::getLast(int index) const
 {
-    assert(index>=0 && index<getSize());
-    return m_indexes[index*2+1];
+    return (index>=0 && index<getSize()) ? m_indexes[index*2+1] : -1;
 }
 
-void Pcre16::getString(int index, std::wstring* str) const
+bool Pcre16::getString(int index, std::wstring* str) const
 {
-    assert(index>=0 && index<getSize());
-    int b = m_indexes[index*2];
-    int e = m_indexes[index*2+1];
-    str->assign(m_str.substr(b, e-b));
+    if (index>=0 && index<getSize())
+    {
+        int b = m_indexes[index*2];
+        int e = m_indexes[index*2+1];
+        str->assign(m_str.substr(b, e-b));
+        return true;
+    }
+    return false;
 }
 
 void Pcre16::getRegexp(std::wstring* regexp) const

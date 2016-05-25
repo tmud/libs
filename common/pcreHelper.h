@@ -20,7 +20,7 @@ public:
     int  getSize() const;
     int  getFirst(int index) const;
     int  getLast(int index) const;
-    void getString(int index, std::wstring* str) const;
+    bool getString(int index, std::wstring* str) const;
     void getRegexp(std::wstring* regexp) const;
 
 private:
