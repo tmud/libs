@@ -104,6 +104,17 @@ public:
         m_data.keepalloc(size);
     }
 
+    const MemoryBuffer& getMemoryBuffer() 
+    {
+        if (m_trucatedSize != 0)
+        {
+            memcpy(m_data.getData(), getData(), m_dataSize);
+            m_trucatedSize = 0;
+        }
+        m_data.keepalloc(m_dataSize);
+        return m_data;
+    }
+
 private:
     int m_dataSize;
     int m_trucatedSize;
