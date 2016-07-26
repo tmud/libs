@@ -52,19 +52,7 @@ void Pcre16::find(const std::wstring& string)
     int params[33];
     const unsigned short *src = (unsigned short*)string.c_str();
     int src_len = string.length();
-
-#ifdef SHOW_ELAPSED_PCRE_TIME
-    ElapsedTimeCounter tc;
-#endif
     int count = pcre16_exec(m_ph, m_pe, src, src_len, 0, 0, params, 33);
-#ifdef SHOW_ELAPSED_PCRE_TIME
-    double dt = tc.getTime();
-    char buffer[32];
-    sprintf(buffer, "%f :", dt);
-    OutputDebugStringA(buffer);
-    OutputDebugStringW(m_regexp.c_str());
-    OutputDebugStringA("\r\n");
-#endif
     for (int i=0; i<count; i++)
     {
         m_indexes.push_back(params[2*i]);
