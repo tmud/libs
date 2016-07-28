@@ -22,9 +22,8 @@ public:
     int  getLast(int index) const;
     bool getString(int index, std::wstring* str) const;
     void getRegexp(std::wstring* regexp) const;
-
-private:
     void clear();
+private:
     pcre16 *m_ph;
     pcre16_extra *m_pe;
     std::vector<int> m_indexes;
