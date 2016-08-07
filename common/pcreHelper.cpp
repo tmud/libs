@@ -114,7 +114,10 @@ bool Pcre16::getString(int index, std::wstring* str) const
     {
         int b = m_indexes[index*2];
         int e = m_indexes[index*2+1];
-        str->assign(m_str.substr(b, e-b));
+        if (b >= 0 && e >= 0)
+            str->assign(m_str.substr(b, e-b));
+        else
+            str->clear();
         return true;
     }
     return false;
