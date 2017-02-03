@@ -17,6 +17,7 @@ xnode xmlLoadMemoryToNode(xnode node, const char *buffer, int size);
 xnode xmlLoad(const char *filename);                    // загрузка файла в память
 xnode xmlLoadToNode(xnode node, const char *filename);
 void  xmlDeleteAllData();                               // освобождение xml от всех данных
+xstring xmlGetLoadError();                              // последняя ошибка во время загрузки
 
 xlist xmlRequest(xnode node, const char *request);      // запрос XPath
 int   xmlGetListSize(xlist nodelist);                   // возвращает длину списка вершин

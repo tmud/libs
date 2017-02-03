@@ -48,12 +48,33 @@ void FormatTree(xmlNodePtr root)
     }
 }
 //---------------------------------------------------------------------------------
+std::string error;
+xstring xmlGetLoadError() {
+    return error.c_str();
+}
+
+void error_handler(void *ctx, const char *msg, ...) {
+   const int TMP_BUF_SIZE = 1024;
+   char string[TMP_BUF_SIZE];
+   va_list arg_ptr;
+   va_start(arg_ptr, msg);
+   vsnprintf(string, TMP_BUF_SIZE, msg, arg_ptr);
+   va_end(arg_ptr);
+   error.append(string);
+}
+
+void clearLastError()
+{
+    error.clear();
+}
+
 xnode xmlLoadMemory(const char *buffer, int size)
 {
+    clearLastError();
     if (!buffer || size <= 0)
         return NULL;
 
-    xmlDocPtr doc = xmlReadMemory(buffer, size, NULL, "UTF-8", XML_PARSE_NOERROR | XML_PARSE_NOWARNING);
+    xmlDocPtr doc = xmlReadMemory(buffer, size, NULL, "UTF-8", XML_PARSE_NOWARNING);
     if (!doc) return NULL;
 
     xmlNodePtr newnode = xmlCopyNode(xmlDocGetRootElement(doc), 1);
@@ -69,10 +90,11 @@ xnode xmlLoadMemory(const char *buffer, int size)
 
 xnode xmlLoadMemoryToNode(xnode node, const char *buffer, int size)
 {
+    clearLastError();
     if (!buffer || size <= 0 || !node)
         return NULL;
 
-    xmlDocPtr doc = xmlReadMemory(buffer, size, NULL, "UTF-8", XML_PARSE_NOERROR | XML_PARSE_NOWARNING);
+    xmlDocPtr doc = xmlReadMemory(buffer, size, NULL, "UTF-8", XML_PARSE_NOWARNING);
     if (!doc) return NULL;
 
     xmlNodePtr newnode = xmlCopyNode(xmlDocGetRootElement(doc), 1);
@@ -88,10 +110,11 @@ xnode xmlLoadMemoryToNode(xnode node, const char *buffer, int size)
 
 xnode xmlLoad(const char *filename)
 {
+    clearLastError();
     if (!filename)
         return NULL;
 
-    xmlDocPtr doc = xmlReadFile(filename, "UTF-8", XML_PARSE_NOERROR | XML_PARSE_NOWARNING);
+    xmlDocPtr doc = xmlReadFile(filename, "UTF-8", XML_PARSE_NOWARNING);
     if (!doc) return NULL;
 
     xmlNodePtr newnode = xmlCopyNode(xmlDocGetRootElement(doc), 1);
@@ -405,11 +428,13 @@ void xmlInit()
     rootdoc = xmlNewDoc((xmlChar*)"1.0");
     rootnode = xmlNewDocNode(rootdoc, NULL, (xmlChar*)"root", NULL);
     xmlDocSetRootElement(rootdoc, rootnode);
+    xmlSetGenericErrorFunc(NULL, error_handler);
 }
 
 void xmlDestroy()
 {
-    // Освобождаем все ресурсы    
+    // Освобождаем все ресурсы
+    xmlSetGenericErrorFunc(NULL, NULL);
     xmlDeleteAllData();
     xmlFreeDoc(rootdoc);
     xmlCleanupParser();
