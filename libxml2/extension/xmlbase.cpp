@@ -50,6 +50,15 @@ void FormatTree(xmlNodePtr root)
 //---------------------------------------------------------------------------------
 std::string error;
 xstring xmlGetLoadError() {
+    std::string e(error);
+    if (!e.empty())
+    {
+        int last = e.length()-1;
+        while (last >= 0 && (e.at(last)=='\n' || e.at(last)=='\r')) {
+            last--;
+        }
+        error = e.substr(0, last);
+    }
     return error.c_str();
 }
 
