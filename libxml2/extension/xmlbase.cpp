@@ -77,7 +77,7 @@ void clearLastError()
     error.clear();
 }
 
-xnode xmlLoadMemory(const char *buffer, int size)
+xnode xmlLoad(const char *buffer, int size)
 {
     clearLastError();
     if (!buffer || size <= 0)
@@ -97,13 +97,13 @@ xnode xmlLoadMemory(const char *buffer, int size)
     return newnode;
 }
 
-xnode xmlLoadMemoryToNode(xnode node, const char *buffer, int size)
+xnode xmlLoadToNode(xnode node, const char *buffer, int size)
 {
     clearLastError();
     if (!buffer || size <= 0 || !node)
         return NULL;
 
-    xmlDocPtr doc = xmlReadMemory(buffer, size, NULL, "UTF-8", XML_PARSE_NOWARNING);
+    xmlDocPtr doc = xmlReadMemory(buffer, size, NULL, "UTF-8", XML_PARSE_NOERROR | XML_PARSE_NOWARNING);
     if (!doc) return NULL;
 
     xmlNodePtr newnode = xmlCopyNode(xmlDocGetRootElement(doc), 1);
@@ -117,7 +117,7 @@ xnode xmlLoadMemoryToNode(xnode node, const char *buffer, int size)
     return newnode;
 }
 
-xnode xmlLoad(const char *filename)
+/*xnode xmlLoad(const char *filename)
 {
     clearLastError();
     if (!filename)
@@ -154,7 +154,7 @@ xnode xmlLoadToNode(xnode node, const char *filename)
         xmlFreeNode(newnode); newnode = NULL;
     }
     return newnode;
-}
+}*/
 
 xlist xmlRequest(xnode node, const char *request)
 {
@@ -314,10 +314,10 @@ void xmlFreeList(xlist nodelist)
     delete list;
 }
 
-int xmlSave(xnode node, const char *filename)
+xbuffer xmlSave(xnode node)
 {
-    if (!filename || !node) 
-        return 0;
+    if (!node)
+        return NULL;
 
     int res = 0;
     xmlBufferPtr buff = xmlBufferCreate();
@@ -326,23 +326,23 @@ int xmlSave(xnode node, const char *filename)
     xmlNodePtr oldrootnode = xmlDocSetRootElement(rootdoc, _node);
     int output_stream_len = xmlSaveFormatFileTo(output_buffer, rootdoc, "UTF-8", 1);
     xmlDocSetRootElement(rootdoc, oldrootnode);
+    char* output = NULL;
     if (output_stream_len != -1)
     {
-        FILE* file = fopen(filename, "wb");
-        if (file != NULL)
-        {
-            unsigned char bom[3] = { 0xef, 0xbb, 0xbf };
-            fwrite(bom, 1, 3, file);
-            fwrite(buff->content, 1, output_stream_len, file);
-            fflush(file);
-            fclose(file);
-            res = 1;
-        }
+        output = new char[output_stream_len+1];
+        memcpy(output, buff->content, output_stream_len);
+        output[output_stream_len] = 0;
     }
-
     if (buff)
         xmlBufferFree(buff);
-    return res;
+    return output;
+}
+
+void xmlFreeBuffer(xbuffer buffer)
+{
+    if (buffer) {
+        delete []buffer;
+    }
 }
 
 xnode xmlCreateRootNode(const char* nodename)

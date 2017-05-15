@@ -8,14 +8,14 @@ extern "C" {
 typedef void* xnode;
 typedef void* xlist;
 typedef const char* xstring;
+typedef const char* xbuffer;
 
 void xmlInit();                                         // инициализация движка
 void xmlDestroy();                                      // удаление всего и очистка
 
-xnode xmlLoadMemory(const char *buffer, int size);      // загрузка из памяти
-xnode xmlLoadMemoryToNode(xnode node, const char *buffer, int size);  
-xnode xmlLoad(const char *filename);                    // загрузка файла в память
-xnode xmlLoadToNode(xnode node, const char *filename);
+xnode xmlLoad(const char *buffer, int size);            // загрузка из памяти
+xnode xmlLoadToNode(xnode node, const char *buffer, int size);
+
 void  xmlDeleteAllData();                               // освобождение xml от всех данных
 xstring xmlGetLoadError();                              // последняя ошибка во время загрузки
 
@@ -32,7 +32,8 @@ xstring xmlGetAttributeValue(xnode node, int index);    // значение атрибута
 xstring xmlGetText(xnode node);                         // текст между открыв и закрывающими тегами
 xstring xmlGetCDataText(xnode node);                    // данные CDATA у вершины
 
-int   xmlSave(xnode node, const char *filename);
+xbuffer xmlSave(xnode node);                            // сохранить весь xml в буфер
+void    xmlFreeBuffer(xbuffer buffer);                  // освободить буфер
 
 xnode xmlCreateNode(xnode parentnode, const char* nodename);
 xnode xmlCreateRootNode(const char* nodename); 
