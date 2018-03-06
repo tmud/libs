@@ -156,6 +156,9 @@
     <ClCompile Include="extension\xmlbase.cpp">
       <Filter>Wrapper Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\buf.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\acconfig.h">
@@ -187,6 +190,9 @@
     </ClInclude>
     <ClInclude Include="extension\xml.h">
       <Filter>Wrapper Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\buf.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

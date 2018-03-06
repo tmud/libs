@@ -5,14 +5,14 @@
 #define HAVE_STDARG_H
 #define HAVE_MALLOC_H
 #define HAVE_ERRNO_H
+#define SEND_ARG2_CAST
+#define GETHOSTBYNAME_ARG_CAST
 
-#ifdef _WIN32_WCE
+#if defined(_WIN32_WCE)
 #undef HAVE_ERRNO_H
-#include <windows.h>
 #include "wincecompat.h"
 #else
 #define HAVE_SYS_STAT_H
-#define HAVE__STAT
 #define HAVE_STAT
 #define HAVE_STDLIB_H
 #define HAVE_TIME_H
@@ -23,9 +23,14 @@
 
 #include <libxml/xmlversion.h>
 
-#ifdef NEED_SOCKETS
-#include <wsockcompat.h>
+#ifndef ICONV_CONST
+#define ICONV_CONST const
 #endif
+
+/*
+ * Windows platforms may define except 
+ */
+#undef except
 
 #define HAVE_ISINF
 #define HAVE_ISNAN
@@ -86,8 +91,12 @@ static int isnan (double d) {
 
 #if defined(_MSC_VER)
 #define mkdir(p,m) _mkdir(p)
+#if _MSC_VER < 1900
 #define snprintf _snprintf
-//#define vsnprintf(b,c,f,a) _vsnprintf(b,c,f,a)
+#endif
+#if _MSC_VER < 1500
+#define vsnprintf(b,c,f,a) _vsnprintf(b,c,f,a)
+#endif
 #elif defined(__MINGW32__)
 #define mkdir(p,m) _mkdir(p)
 #endif
@@ -95,7 +104,7 @@ static int isnan (double d) {
 /* Threading API to use should be specified here for compatibility reasons.
    This is however best specified on the compiler's command-line. */
 #if defined(LIBXML_THREAD_ENABLED)
-#if !defined(HAVE_PTHREAD_H) && !defined(HAVE_WIN32_THREADS)
+#if !defined(HAVE_PTHREAD_H) && !defined(HAVE_WIN32_THREADS) && !defined(_WIN32_WCE)
 #define HAVE_WIN32_THREADS
 #endif
 #endif

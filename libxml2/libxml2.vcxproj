@@ -93,6 +93,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\buf.c" />
     <ClCompile Include="src\c14n.c" />
     <ClCompile Include="src\catalog.c" />
     <ClCompile Include="src\chvalid.c" />
@@ -144,6 +145,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\acconfig.h" />
+    <ClInclude Include="src\buf.h" />
     <ClInclude Include="src\config.h" />
     <ClInclude Include="src\elfgcchack.h" />
     <ClInclude Include="src\libxml.h" />
