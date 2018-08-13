@@ -1,5 +1,5 @@
 #pragma once
-class ElapsedTimeCounter
+/*class ElapsedTimeCounter
 {
     std::wstring m_label;
     DWORD m_ticker;    
@@ -30,4 +30,4 @@ public:
         t.append(buffer);  
         OutputDebugString(t.c_str());
     }
-};
+};*/
