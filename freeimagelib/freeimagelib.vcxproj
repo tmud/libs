@@ -19,13 +19,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Utility</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120_xp</PlatformToolset>
+    <PlatformToolset>v141_xp</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Utility</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120_xp</PlatformToolset>
+    <PlatformToolset>v141_xp</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -59,7 +59,7 @@
     </Link>
     <PreBuildEvent>
       <Command>cd ..\freeimage
-if exist FreeImage\FreeImage.2013.sln goto skip_unzip
+if exist FreeImage\FreeImage.2017.sln goto skip_unzip
 call unzip.bat
 :skip_unzip
 copy fimage\fimage.h $(SolutionDir)\libs\include</Command>
@@ -70,7 +70,7 @@ copy fimage\fimage.h $(SolutionDir)\libs\include</Command>
     </CustomBuildStep>
     <PostBuildEvent>
       <Command>cd ..\freeimage\FreeImage
-$(BuildSystem) FreeImage.2013.sln /p:WarningLevel=0 /p:Configuration=$(Configuration) /m</Command>
+$(BuildSystem) FreeImage.2017.sln /p:WarningLevel=0 /p:Configuration=$(Configuration) /m</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -91,7 +91,7 @@ $(BuildSystem) FreeImage.2013.sln /p:WarningLevel=0 /p:Configuration=$(Configura
     </Link>
     <PreBuildEvent>
       <Command>cd ..\freeimage
-if exist FreeImage\FreeImage.2013.sln goto skip_unzip
+if exist FreeImage\FreeImage.2017.sln goto skip_unzip
 call unzip.bat
 :skip_unzip
 copy fimage\fimage.h $(SolutionDir)\libs\include</Command>
@@ -102,7 +102,7 @@ copy fimage\fimage.h $(SolutionDir)\libs\include</Command>
     </CustomBuildStep>
     <PostBuildEvent>
       <Command>cd ..\freeimage\FreeImage
-$(BuildSystem) FreeImage.2013.sln /p:WarningLevel=0 /p:Configuration=$(Configuration) /m</Command>
+$(BuildSystem) FreeImage.2017.sln /p:WarningLevel=0 /p:Configuration=$(Configuration) /m</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
