@@ -13,3 +13,4 @@ EXPORTS
 	fimage_setindex
 	fimage_getpalette
 	fimage_setpalette
+	fimage_rescale

@@ -41,6 +41,14 @@ fimage fimage_cut(fimage fi, int x, int y, int w, int h)
     return new_dib;
 }
 
+fimage fimage_rescale(fimage fi, int w, int h)
+{
+    FIBITMAP *dib = get(fi);
+    if (!dib) return NULL;
+    FIBITMAP *new_dib = FreeImage_Rescale(dib, w, h);
+    return new_dib;
+}
+
 void fimage_render_master(HDC dc, FIBITMAP* dib, int x, int y, int w, int h, int sx, int sy, int sw, int sh)
 {
     sw = (sw > 0) ? sw : FreeImage_GetWidth(dib);

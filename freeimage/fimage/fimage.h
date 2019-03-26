@@ -7,6 +7,7 @@ typedef void* fimage;                                   // support jpg, png, bmp
 fimage fimage_load(const wchar_t* file, int extra);     // extra - ico (size of icon), gif (number of frame), other ignored.
 void fimage_unload(fimage fi);                          // unload image
 fimage fimage_cut(fimage fi, int x, int y, int w, int h); // cut subimage from another
+fimage fimage_rescale(fimage fi, int w, int h);         // resize picture
 int  fimage_width(fimage fi);                           // width of image
 int  fimage_height(fimage fi);                          // height of images
 int  fimage_memsize(fimage fi);                         // size of image in memory
