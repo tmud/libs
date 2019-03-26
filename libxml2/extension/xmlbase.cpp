@@ -1,4 +1,4 @@
-#define IN_LIBXML
+п»ї#define IN_LIBXML
 #include "../src/libxml.h"
 #include "xml.h"
 #include <libxml/parser.h>
@@ -23,8 +23,8 @@ void FormatTree(xmlNodePtr root)
         xmlNodePtr tofree = NULL;
         if (root->type == XML_TEXT_NODE && root->content)
         {
-            // обработка содержимого узла
-            // удаляем все узлы, которые представляют собой только пробелы и переводы строк
+            // РѕР±СЂР°Р±РѕС‚РєР° СЃРѕРґРµСЂР¶РёРјРѕРіРѕ СѓР·Р»Р°
+            // СѓРґР°Р»СЏРµРј РІСЃРµ СѓР·Р»С‹, РєРѕС‚РѕСЂС‹Рµ РїСЂРµРґСЃС‚Р°РІР»СЏСЋС‚ СЃРѕР±РѕР№ С‚РѕР»СЊРєРѕ РїСЂРѕР±РµР»С‹ Рё РїРµСЂРµРІРѕРґС‹ СЃС‚СЂРѕРє
             char *ptr = (char*)root->content;
             if (strspn(ptr, symbols) == strlen(ptr))
             {
@@ -429,11 +429,11 @@ xnode xmlMakeNodeCopy(xnode node, xnode parent_node)
 
 void xmlInit()
 {
-    // Инициализируем парсер
+    // РРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РїР°СЂСЃРµСЂ
     xmlInitParser();
 
-    // Создаем пустой документ и корневой элемент - Root,
-    // куда в дальнейшем будем загружать xml файлы, создавая общее xml-дерево	
+    // РЎРѕР·РґР°РµРј РїСѓСЃС‚РѕР№ РґРѕРєСѓРјРµРЅС‚ Рё РєРѕСЂРЅРµРІРѕР№ СЌР»РµРјРµРЅС‚ - Root,
+    // РєСѓРґР° РІ РґР°Р»СЊРЅРµР№С€РµРј Р±СѓРґРµРј Р·Р°РіСЂСѓР¶Р°С‚СЊ xml С„Р°Р№Р»С‹, СЃРѕР·РґР°РІР°СЏ РѕР±С‰РµРµ xml-РґРµСЂРµРІРѕ	
     rootdoc = xmlNewDoc((xmlChar*)"1.0");
     rootnode = xmlNewDocNode(rootdoc, NULL, (xmlChar*)"root", NULL);
     xmlDocSetRootElement(rootdoc, rootnode);
@@ -442,7 +442,7 @@ void xmlInit()
 
 void xmlDestroy()
 {
-    // Освобождаем все ресурсы
+    // РћСЃРІРѕР±РѕР¶РґР°РµРј РІСЃРµ СЂРµСЃСѓСЂСЃС‹
     xmlSetGenericErrorFunc(NULL, NULL);
     xmlDeleteAllData();
     xmlFreeDoc(rootdoc);

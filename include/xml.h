@@ -1,4 +1,4 @@
-#ifndef __XML_H__
+п»ї#ifndef __XML_H__
 #define __XML_H__
 
 #ifdef __cplusplus
@@ -10,39 +10,39 @@ typedef void* xlist;
 typedef const char* xstring;
 typedef const char* xbuffer;
 
-void xmlInit();                                         // инициализация движка
-void xmlDestroy();                                      // удаление всего и очистка
+void xmlInit();                                         // РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РґРІРёР¶РєР°
+void xmlDestroy();                                      // СѓРґР°Р»РµРЅРёРµ РІСЃРµРіРѕ Рё РѕС‡РёСЃС‚РєР°
 
-xnode xmlLoad(const char *buffer, int size);            // загрузка из памяти
+xnode xmlLoad(const char *buffer, int size);            // Р·Р°РіСЂСѓР·РєР° РёР· РїР°РјСЏС‚Рё
 xnode xmlLoadToNode(xnode node, const char *buffer, int size);
 
-void  xmlDeleteAllData();                               // освобождение xml от всех данных
-xstring xmlGetLoadError();                              // последняя ошибка во время загрузки
+void  xmlDeleteAllData();                               // РѕСЃРІРѕР±РѕР¶РґРµРЅРёРµ xml РѕС‚ РІСЃРµС… РґР°РЅРЅС‹С…
+xstring xmlGetLoadError();                              // РїРѕСЃР»РµРґРЅСЏСЏ РѕС€РёР±РєР° РІРѕ РІСЂРµРјСЏ Р·Р°РіСЂСѓР·РєРё
 
-xlist xmlRequest(xnode node, const char *request);      // запрос XPath
-int   xmlGetListSize(xlist nodelist);                   // возвращает длину списка вершин
-xnode xmlGetListNode(xlist nodelist, int index);        // получить вершину из списка
-void  xmlFreeList(xlist nodelist);                      // освобождает список вершин
+xlist xmlRequest(xnode node, const char *request);      // Р·Р°РїСЂРѕСЃ XPath
+int   xmlGetListSize(xlist nodelist);                   // РІРѕР·РІСЂР°С‰Р°РµС‚ РґР»РёРЅСѓ СЃРїРёСЃРєР° РІРµСЂС€РёРЅ
+xnode xmlGetListNode(xlist nodelist, int index);        // РїРѕР»СѓС‡РёС‚СЊ РІРµСЂС€РёРЅСѓ РёР· СЃРїРёСЃРєР°
+void  xmlFreeList(xlist nodelist);                      // РѕСЃРІРѕР±РѕР¶РґР°РµС‚ СЃРїРёСЃРѕРє РІРµСЂС€РёРЅ
 
-xstring xmlGetName(xnode node);                         // получить имя тега узла
-xstring xmlGetAttribute(xnode node, const char *atname);// узнать аттрибут узла
-int     xmlGetAttributesCount(xnode node);              // количество атрибутов вершины
-xstring xmlGetAttributeName(xnode node, int index);     // имя атрибута
-xstring xmlGetAttributeValue(xnode node, int index);    // значение атрибута
-xstring xmlGetText(xnode node);                         // текст между открыв и закрывающими тегами
-xstring xmlGetCDataText(xnode node);                    // данные CDATA у вершины
+xstring xmlGetName(xnode node);                         // РїРѕР»СѓС‡РёС‚СЊ РёРјСЏ С‚РµРіР° СѓР·Р»Р°
+xstring xmlGetAttribute(xnode node, const char *atname);// СѓР·РЅР°С‚СЊ Р°С‚С‚СЂРёР±СѓС‚ СѓР·Р»Р°
+int     xmlGetAttributesCount(xnode node);              // РєРѕР»РёС‡РµСЃС‚РІРѕ Р°С‚СЂРёР±СѓС‚РѕРІ РІРµСЂС€РёРЅС‹
+xstring xmlGetAttributeName(xnode node, int index);     // РёРјСЏ Р°С‚СЂРёР±СѓС‚Р°
+xstring xmlGetAttributeValue(xnode node, int index);    // Р·РЅР°С‡РµРЅРёРµ Р°С‚СЂРёР±СѓС‚Р°
+xstring xmlGetText(xnode node);                         // С‚РµРєСЃС‚ РјРµР¶РґСѓ РѕС‚РєСЂС‹РІ Рё Р·Р°РєСЂС‹РІР°СЋС‰РёРјРё С‚РµРіР°РјРё
+xstring xmlGetCDataText(xnode node);                    // РґР°РЅРЅС‹Рµ CDATA Сѓ РІРµСЂС€РёРЅС‹
 
-xbuffer xmlSave(xnode node);                            // сохранить весь xml в буфер
-void    xmlFreeBuffer(xbuffer buffer);                  // освободить буфер
+xbuffer xmlSave(xnode node);                            // СЃРѕС…СЂР°РЅРёС‚СЊ РІРµСЃСЊ xml РІ Р±СѓС„РµСЂ
+void    xmlFreeBuffer(xbuffer buffer);                  // РѕСЃРІРѕР±РѕРґРёС‚СЊ Р±СѓС„РµСЂ
 
 xnode xmlCreateNode(xnode parentnode, const char* nodename);
 xnode xmlCreateRootNode(const char* nodename); 
 void  xmlDeleteNode(xnode node);
 int   xmlSetAttribute(xnode node, const char *atname, const char *value);
 int   xmlSetText(xnode node, const char *text);
-xnode xmlGetParent(xnode node);                         // получить родителькую вершину от текущей
+xnode xmlGetParent(xnode node);                         // РїРѕР»СѓС‡РёС‚СЊ СЂРѕРґРёС‚РµР»СЊРєСѓСЋ РІРµСЂС€РёРЅСѓ РѕС‚ С‚РµРєСѓС‰РµР№
 
-xnode xmlMakeNodeCopy(xnode node, xnode parent_node);   // копирование данных
+xnode xmlMakeNodeCopy(xnode node, xnode parent_node);   // РєРѕРїРёСЂРѕРІР°РЅРёРµ РґР°РЅРЅС‹С…
 
 #ifdef __cplusplus
 }
