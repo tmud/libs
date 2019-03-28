@@ -383,7 +383,7 @@ int xmlSetAttribute(xnode node, const char *atname, const char *value)
     xmlChar *v = xmlCharStrdup(value);
 
     xmlNodePtr _node = (xmlNodePtr)node;
-    xmlAttr *new_attr = xmlNewProp(_node, an, v);
+    xmlAttr *new_attr = xmlSetProp(_node, an, v);
 
     free(an);
     free(v);
