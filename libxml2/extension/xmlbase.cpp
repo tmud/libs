@@ -6,6 +6,7 @@
 #include <libxml/xpath.h>
 #include <encoding.h>
 #include <vector>
+#include <string>
 typedef std::vector<xmlNodePtr> xmlNodeList;
 
 xmlDocPtr  rootdoc;
