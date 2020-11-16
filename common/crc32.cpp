@@ -9,8 +9,6 @@
   Revert: true
   XorOut: 0xFFFFFFFF
   Check : 0xCBF43926 ("123456789")
-  MaxLen: 268 435 455 байт (2 147 483 647 бит) - обнаружение
-  одинарных, двойных, пакетных и всех нечетных ошибок
 */
 const unsigned int crc32Table[256] = {
     0x00000000, 0x77073096, 0xEE0E612C, 0x990951BA,
