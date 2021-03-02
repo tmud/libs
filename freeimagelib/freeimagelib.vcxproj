@@ -71,7 +71,7 @@ copy fimage\fimage.h $(SolutionDir)\libs\include</Command>
     </CustomBuildStep>
     <PostBuildEvent>
       <Command>cd ..\freeimage\FreeImage
-$(BuildSystem) FreeImage.2017.sln /p:WarningLevel=0 /p:Configuration=$(Configuration) /m</Command>
+$(BuildSystem) FreeImage.2019.sln /p:WarningLevel=0 /p:Configuration=$(Configuration) /m</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -103,7 +103,7 @@ copy fimage\fimage.h $(SolutionDir)\libs\include</Command>
     </CustomBuildStep>
     <PostBuildEvent>
       <Command>cd ..\freeimage\FreeImage
-$(BuildSystem) FreeImage.2017.sln /p:WarningLevel=0 /p:Configuration=$(Configuration) /m</Command>
+$(BuildSystem) FreeImage.2019.sln /p:WarningLevel=0 /p:Configuration=$(Configuration) /m</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
