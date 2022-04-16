@@ -14,7 +14,7 @@
     <ProjectGuid>{C8EE31DB-531A-4DD1-A0E4-A85B49D27276}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>freeimagelib</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
